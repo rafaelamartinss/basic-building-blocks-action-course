@@ -1,0 +1,14 @@
+name: Output Info
+on: issues
+jobs:
+  output:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/checkout@v3
+      - name: Get dependencies
+        run: npm ci
+      - name: Output github context
+        run: echo "${{toJSON(github)}}"
