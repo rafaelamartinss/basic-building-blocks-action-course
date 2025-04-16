@@ -7,9 +7,7 @@ on:
     branches:
       - main
       - "dev-*" #dev-new dev-this-is-new
-      - "feat/**" #feat/new/branch feat/branch
-    paths-ignore:
-      - ".github/workflows/*"
+      - "feat/**" #feat/new/branch feat/
 jobs:
   lint:
     runs-on: ubuntu-latest
