@@ -1,5 +1,15 @@
 name: Deploy Project
-on: push
+on:
+  pull_request:
+    types:
+      - opened
+  push:
+    branches:
+      - main
+      - "dev-*" #dev-new dev-this-is-new
+      - "feat/**" #feat/new/branch feat/branch
+    paths-ignore:
+      - ".github/workflows/*"
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -26,8 +36,28 @@ jobs:
         run: npm ci
       - name: Run test
         run: npm test
-  deploy:
+  build:
     needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Get dependencies
+        run: npm ci
+      - name: Build project
+        run: npm run build
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-files
+          path: dist
+            package.json
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Get code
