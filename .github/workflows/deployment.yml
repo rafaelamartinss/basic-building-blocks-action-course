@@ -57,15 +57,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Install NodeJS
-        uses: actions/setup-node@v3
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
         with:
-          node-version: 18
-      - name: Get dependencies
-        run: npm ci
-      - name: Build project
-        run: npm run build
+          name: dist-files
+      - name: Output contents
+        run: ls
       - name: Deploy
         run: echo "Deploying..."
